@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="client_blacklist_process" name="客户黑名单审批流程" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <userTask id="client_blacklist_submit" name="黑名单提交"></userTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="client_blacklist_submit"></sequenceFlow>
+    <userTask id="client_blacklist_audit" name="黑名单审核"></userTask>
+    <sequenceFlow id="flow2" sourceRef="client_blacklist_submit" targetRef="client_blacklist_audit"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow3" sourceRef="client_blacklist_audit" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow5" name="${approval == '0'}  则审核退回" sourceRef="exclusivegateway1" targetRef="client_blacklist_submit">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approval == '0'}]]></conditionExpression>
+    </sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow4" name="${approval == '1'} 则审核通过" sourceRef="exclusivegateway1" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approval == '1'}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_client_blacklist_process">
+    <bpmndi:BPMNPlane bpmnElement="client_blacklist_process" id="BPMNPlane_client_blacklist_process">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="543.0" y="141.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="client_blacklist_submit" id="BPMNShape_client_blacklist_submit">
+        <omgdc:Bounds height="55.0" width="105.0" x="508.0" y="230.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="client_blacklist_audit" id="BPMNShape_client_blacklist_audit">
+        <omgdc:Bounds height="55.0" width="105.0" x="508.0" y="330.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="540.0" y="430.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="543.0" y="520.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="560.0" y="176.0"></omgdi:waypoint>
+        <omgdi:waypoint x="560.0" y="230.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="560.0" y="285.0"></omgdi:waypoint>
+        <omgdi:waypoint x="560.0" y="330.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="560.0" y="385.0"></omgdi:waypoint>
+        <omgdi:waypoint x="560.0" y="430.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="540.0" y="450.0"></omgdi:waypoint>
+        <omgdi:waypoint x="321.0" y="450.0"></omgdi:waypoint>
+        <omgdi:waypoint x="321.0" y="358.0"></omgdi:waypoint>
+        <omgdi:waypoint x="321.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="508.0" y="257.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="42.0" width="100.0" x="211.0" y="330.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="560.0" y="470.0"></omgdi:waypoint>
+        <omgdi:waypoint x="560.0" y="520.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="42.0" width="100.0" x="590.0" y="469.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
